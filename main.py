@@ -37,6 +37,15 @@ def count_clicks(token, bitlink):
     return response.json()['total_clicks']
 
 
+def is_bitlink(token, url):
+    headers = {
+        'Authorization': f'Bearer {token}'
+    }
+    endpoint = f'{BITLY_URL}/v4/bitlinks/{url}'
+    response = requests.get(endpoint, headers=headers)
+    return response.ok
+
+
 def args_parse():
     parser = argparse.ArgumentParser(description='Укорачивает URL')
     parser.add_argument('url', type=str, help='URL который надо укоротить')
@@ -45,22 +54,27 @@ def args_parse():
 
 
 def main(url):
-    tokken = os.getenv('TOKKEN')
-    try:
-        bitlink = shorten_link(tokken, url)
-    except requests.exceptions.HTTPError:
-        print(f'Неправильно введенный URL {url}')
+    token = os.getenv('token')
+    if not token:
+        print('Отсутствует Token!')
         return
-    else:
-        print('Битлинк', bitlink)
 
-    try:
-        total_clicks = count_clicks(tokken, bitlink)
-    except requests.exceptions.HTTPError:
-        print(f'Неправильный Bitlink {bitlink}')
-        return
+    if is_bitlink(token, url):
+        try:
+            total_clicks = count_clicks(token, url)
+        except requests.exceptions.HTTPError:
+            print(f'Неправильный Bitlink {url}')
+            return
+        else:
+            print('Количество кликов', total_clicks)
     else:
-        print('Количество кликов', total_clicks)
+        try:
+            bitlink = shorten_link(token, url)
+        except requests.exceptions.HTTPError:
+            print(f'Неправильно введенный URL {url}')
+            return
+        else:
+            print('Битлинк', bitlink)
 
 
 if __name__ == '__main__':
