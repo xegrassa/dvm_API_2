@@ -28,7 +28,8 @@ TOKEN = Ваш_токен_от_аккаунта_bitly
 python main.py http://google.com
 ```
 
-
+**Пример работы:**
+[![asciicast](https://asciinema.org/a/475885.svg)](https://asciinema.org/a/475885)
 
 
 ## Зависимости
