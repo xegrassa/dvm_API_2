@@ -9,6 +9,7 @@ BITLY_URL = 'https://api-ssl.bitly.com'
 
 
 def shorten_link(token, url):
+    """Возвращает Bitlink ссылку созданную для переданного url."""
     endpoint = f'{BITLY_URL}/v4/bitlinks'
     headers = {
         'Authorization': f'Bearer {token}'
@@ -25,6 +26,7 @@ def shorten_link(token, url):
 
 
 def count_clicks(token, bitlink):
+    """Возвращает кол-во кликов по Bitlink ссылке."""
     endpoint = f'{BITLY_URL}/v4/bitlinks/{bitlink}/clicks/summary'
     headers = {
         'Authorization': f'Bearer {token}'
@@ -38,6 +40,7 @@ def count_clicks(token, bitlink):
 
 
 def is_bitlink(token, url):
+    """Проверяет что переданный url является Bitlink."""
     headers = {
         'Authorization': f'Bearer {token}'
     }
@@ -49,12 +52,15 @@ def is_bitlink(token, url):
 def args_parse():
     parser = argparse.ArgumentParser(description='Укорачивает URL')
     parser.add_argument('url', type=str, help='URL который надо укоротить')
-    args = parser.parse_args()
-    return args
+    return parser.parse_args()
 
 
-def main(url):
-    token = os.getenv('token')
+def main(token, url):
+    """Показывает Bitlink от URL или кол-во кликов по Bitlink.
+
+    :param token: Токен полученный на сайте https://app.bitly.com/
+    :param url: URL или Bitlink. ex: http://e1,ru | bit.ly/3CyjyTU
+    """
     if not token:
         print('Отсутствует Token!')
         return
@@ -79,5 +85,6 @@ def main(url):
 
 if __name__ == '__main__':
     load_dotenv()
+    token = os.getenv('token')
     args = args_parse()
-    main(args.url)
+    main(token, args.url)
