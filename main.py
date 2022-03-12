@@ -68,22 +68,15 @@ def main():
     parser.add_argument('url', type=str, help='URL который надо укоротить')
     args = parser.parse_args()
 
-    if is_bitlink(token, args.url):
-        try:
+    try:
+        if is_bitlink(token, args.url):
             total_clicks = count_clicks(token, args.url)
-        except requests.exceptions.HTTPError:
-            print(f'Неправильный Bitlink {args.url}')
-            return
-        else:
             print('Количество кликов', total_clicks)
-    else:
-        try:
-            bitlink = shorten_link(token, args.url)
-        except requests.exceptions.HTTPError:
-            print(f'Неправильно введенный URL {args.url}')
-            return
         else:
+            bitlink = shorten_link(token, args.url)
             print('Битлинк', bitlink)
+    except requests.exceptions.HTTPError:
+        print(f'Некоректно введенный URL/Bitlink: {args.url}')
 
 
 if __name__ == '__main__':
