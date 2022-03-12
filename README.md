@@ -22,8 +22,8 @@ TOKEN = Ваш_токен_от_аккаунта_bitly
 Мини справку о работе можно вызвать через опцию **-h**. `python main.py -h`
 ***
 Находясь в корне проекта запустите проект с переданным URL или Bitlink
-- url - http://google.com 
-- bitlink - [bit.ly/34y5mhm](http://bit.ly/34y5mhm)
+- url - https://google.com 
+- bitlink - [https://bit.ly/34y5mhm](https://bit.ly/34y5mhm)
 ```
 python main.py http://google.com
 ```
