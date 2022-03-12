@@ -5,6 +5,11 @@ from urllib.parse import urlparse
 import requests
 from dotenv import load_dotenv
 
+
+class EmptyDataError(Exception):
+    pass
+
+
 BITLY_URL = 'https://api-ssl.bitly.com'
 
 
@@ -61,13 +66,10 @@ def main():
     :param token: Токен полученный на сайте https://app.bitly.com/
     :param url: URL или Bitlink. ex: http://e1,ru | bit.ly/3CyjyTU
     """
-    load_dotenv()
     token = os.getenv('TOKEN')
-    url = args_parse().url
-
     if not token:
-        print('Отсутствует Token!')
-        return
+        raise EmptyDataError('Отсутствует переменная окружения TOKEN')
+    url = args_parse().url
 
     if is_bitlink(token, url):
         try:
@@ -88,4 +90,5 @@ def main():
 
 
 if __name__ == '__main__':
+    load_dotenv()
     main()
