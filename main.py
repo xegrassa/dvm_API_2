@@ -54,12 +54,6 @@ def is_bitlink(token, url):
     return response.ok
 
 
-def args_parse():
-    parser = argparse.ArgumentParser(description='Укорачивает URL')
-    parser.add_argument('url', type=str, help='URL который надо укоротить')
-    return parser.parse_args()
-
-
 def main():
     """Показывает Bitlink от URL или кол-во кликов по Bitlink.
 
@@ -69,21 +63,24 @@ def main():
     token = os.getenv('TOKEN')
     if not token:
         raise EmptyDataError('Отсутствует переменная окружения TOKEN')
-    url = args_parse().url
 
-    if is_bitlink(token, url):
+    parser = argparse.ArgumentParser(description='Укорачивает URL')
+    parser.add_argument('url', type=str, help='URL который надо укоротить')
+    args = parser.parse_args()
+
+    if is_bitlink(token, args.url):
         try:
-            total_clicks = count_clicks(token, url)
+            total_clicks = count_clicks(token, args.url)
         except requests.exceptions.HTTPError:
-            print(f'Неправильный Bitlink {url}')
+            print(f'Неправильный Bitlink {args.url}')
             return
         else:
             print('Количество кликов', total_clicks)
     else:
         try:
-            bitlink = shorten_link(token, url)
+            bitlink = shorten_link(token, args.url)
         except requests.exceptions.HTTPError:
-            print(f'Неправильно введенный URL {url}')
+            print(f'Неправильно введенный URL {args.url}')
             return
         else:
             print('Битлинк', bitlink)
