@@ -24,21 +24,22 @@ def shorten_link(token, url):
     }
     response = requests.post(endpoint, headers=headers, json=payload)
     response.raise_for_status()
-    bitlink = response.json()['link']
-    parsed_link = urlparse(bitlink)
-
-    return parsed_link.netloc + parsed_link.path
+    return response.json()['link']
 
 
 def count_clicks(token, bitlink):
     """Возвращает кол-во кликов по Bitlink ссылке."""
-    endpoint = f'{BITLY_URL}/v4/bitlinks/{bitlink}/clicks/summary'
     headers = {
         'Authorization': f'Bearer {token}'
     }
     url_params = {
         'units': '-1',
     }
+
+    parsed_link = urlparse(bitlink)
+    link = parsed_link.netloc + parsed_link.path
+    endpoint = f'{BITLY_URL}/v4/bitlinks/{link}/clicks/summary'
+
     response = requests.get(endpoint, headers=headers, params=url_params)
     response.raise_for_status()
     return response.json()['total_clicks']
@@ -49,7 +50,11 @@ def is_bitlink(token, url):
     headers = {
         'Authorization': f'Bearer {token}'
     }
-    endpoint = f'{BITLY_URL}/v4/bitlinks/{url}'
+
+    parsed_link = urlparse(url)
+    link = parsed_link.netloc + parsed_link.path
+    endpoint = f'{BITLY_URL}/v4/bitlinks/{link}'
+
     response = requests.get(endpoint, headers=headers)
     return response.ok
 
