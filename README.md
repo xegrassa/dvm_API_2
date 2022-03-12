@@ -1,6 +1,6 @@
 # Сокращение URL
 
-Консольное приложение для сокращение URL с помощью сервиса Bitly. (**Проект учебный**)
+Консольное приложение для сокращение URL с помощью сервиса [Bitly](https://bitly.com/). (**Проект учебный**)
 
 ### Установка
 
@@ -23,7 +23,7 @@ TOKEN = Ваш_токен_от_аккаунта_bitly
 ***
 Находясь в корне проекта запустите проект с переданным URL или Bitlink
 - url - http://google.com 
-- bitlink - bit.ly/34y5mhm
+- bitlink - [bit.ly/34y5mhm](http://bit.ly/34y5mhm)
 ```
 python main.py http://google.com
 ```
