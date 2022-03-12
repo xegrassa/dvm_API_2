@@ -55,12 +55,16 @@ def args_parse():
     return parser.parse_args()
 
 
-def main(token, url):
+def main():
     """Показывает Bitlink от URL или кол-во кликов по Bitlink.
 
     :param token: Токен полученный на сайте https://app.bitly.com/
     :param url: URL или Bitlink. ex: http://e1,ru | bit.ly/3CyjyTU
     """
+    load_dotenv()
+    token = os.getenv('TOKEN')
+    url = args_parse().url
+
     if not token:
         print('Отсутствует Token!')
         return
@@ -84,7 +88,4 @@ def main(token, url):
 
 
 if __name__ == '__main__':
-    load_dotenv()
-    token = os.getenv('TOKEN')
-    args = args_parse()
-    main(token, args.url)
+    main()
