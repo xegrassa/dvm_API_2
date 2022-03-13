@@ -60,11 +60,7 @@ def is_bitlink(token, url):
 
 
 def main():
-    """Показывает Bitlink от URL или кол-во кликов по Bitlink.
-
-    :param token: Токен полученный на сайте https://app.bitly.com/
-    :param url: URL или Bitlink. ex: http://e1,ru | bit.ly/3CyjyTU
-    """
+    """Возвращает Bitlink или кол-во кликов по нему в зависимости от того что было передано в скрипт."""
     token = os.getenv('TOKEN')
     if not token:
         raise EmptyDataError('Отсутствует переменная окружения TOKEN')
