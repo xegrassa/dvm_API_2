@@ -61,6 +61,7 @@ def is_bitlink(token, url):
 
 def main():
     """Возвращает Bitlink или кол-во кликов по нему в зависимости от того что было передано в скрипт."""
+    load_dotenv()
     token = os.getenv('TOKEN')
     if not token:
         raise EmptyDataError('Отсутствует переменная окружения TOKEN')
@@ -81,5 +82,4 @@ def main():
 
 
 if __name__ == '__main__':
-    load_dotenv()
     main()
