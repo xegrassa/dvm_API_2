@@ -13,16 +13,16 @@ class EmptyDataError(Exception):
 BITLY_URL = 'https://api-ssl.bitly.com'
 
 
-def shorten_link(token, url):
+def shorten_link(token, long_url):
     """Возвращает Bitlink ссылку созданную для переданного url."""
-    endpoint = f'{BITLY_URL}/v4/bitlinks'
+    url = f'{BITLY_URL}/v4/bitlinks'
     headers = {
         'Authorization': f'Bearer {token}'
     }
     payload = {
-        'long_url': f'{url}'
+        'long_url': f'{long_url}'
     }
-    response = requests.post(endpoint, headers=headers, json=payload)
+    response = requests.post(url, headers=headers, json=payload)
     response.raise_for_status()
     return response.json()['link']
 
@@ -38,24 +38,24 @@ def count_clicks(token, bitlink):
 
     parsed_link = urlparse(bitlink)
     link = parsed_link.netloc + parsed_link.path
-    endpoint = f'{BITLY_URL}/v4/bitlinks/{link}/clicks/summary'
+    url = f'{BITLY_URL}/v4/bitlinks/{link}/clicks/summary'
 
-    response = requests.get(endpoint, headers=headers, params=url_params)
+    response = requests.get(url, headers=headers, params=url_params)
     response.raise_for_status()
     return response.json()['total_clicks']
 
 
-def is_bitlink(token, url):
+def is_bitlink(token, url_to_check):
     """Проверяет что переданный url является Bitlink."""
     headers = {
         'Authorization': f'Bearer {token}'
     }
 
-    parsed_link = urlparse(url)
-    link = parsed_link.netloc + parsed_link.path
-    endpoint = f'{BITLY_URL}/v4/bitlinks/{link}'
+    parsed_url = urlparse(url_to_check)
+    link = parsed_url.netloc + parsed_url.path
+    url = f'{BITLY_URL}/v4/bitlinks/{link}'
 
-    response = requests.get(endpoint, headers=headers)
+    response = requests.get(url, headers=headers)
     return response.ok
 
 
