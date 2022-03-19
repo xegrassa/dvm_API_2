@@ -62,9 +62,9 @@ def is_bitlink(token, url):
 def main():
     """Возвращает Bitlink или кол-во кликов по нему в зависимости от того что было передано в скрипт."""
     load_dotenv()
-    token = os.getenv('TOKEN')
+    token = os.getenv('BITLY_TOKEN')
     if not token:
-        raise EmptyDataError('Отсутствует переменная окружения TOKEN')
+        raise EmptyDataError('Отсутствует переменная окружения BITLY_TOKEN')
 
     parser = argparse.ArgumentParser(description='Укорачивает URL')
     parser.add_argument('url', type=str, help='URL который надо укоротить')
